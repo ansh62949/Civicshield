@@ -52,7 +52,15 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .anyRequest().permitAll())
+                        // Public endpoints
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers("/actuator/health").permitAll()
+                        .requestMatchers("/health").permitAll()
+                        // Allow all GET requests for reading data
+                        .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                        // ALL other requests (POST, PUT, DELETE) require authentication
+                        .anyRequest().authenticated())
                 .addFilterBefore(
                         new JwtAuthenticationFilter(jwtUtil, userDetailsService),
                         UsernamePasswordAuthenticationFilter.class);
