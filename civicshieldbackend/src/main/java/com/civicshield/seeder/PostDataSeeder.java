@@ -22,7 +22,7 @@ public class PostDataSeeder {
         this.postRepository = postRepository;
     }
 
-    @PostConstruct
+    // @PostConstruct ✅ DISABLE TEMPORARILY
     public void seedPosts() {
         // Always seed posts for development - clear existing first
         postRepository.deleteAll();

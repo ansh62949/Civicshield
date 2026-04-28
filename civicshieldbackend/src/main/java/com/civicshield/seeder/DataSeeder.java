@@ -20,7 +20,7 @@ public class DataSeeder {
         this.complaintRepository = complaintRepository;
     }
 
-    @PostConstruct
+    // @PostConstruct ✅ DISABLE TEMPORARILY
     public void seedData() {
         if (complaintRepository.count() == 0) {
             List<Complaint> complaints = new ArrayList<>();

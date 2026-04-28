@@ -20,7 +20,7 @@ public class AreaDataSeeder {
         this.areaRepository = areaRepository;
     }
 
-    @PostConstruct
+    // @PostConstruct ✅ DISABLE TEMPORARILY
     public void seedAreas() {
         if (areaRepository.count() > 0) {
             log.info("Area data already seeded. Skipping area seeder.");
