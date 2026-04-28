@@ -73,7 +73,7 @@ export default function App() {
         setPosts(fetchedPosts.map(p => ({
           ...p,
           text: p.content || p.text || '',
-          imageUrl: p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `${import.meta.env.VITE_API_URL || 'https://your-backend-url'}${p.imageUrl}`) : null,
+          imageUrl: p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `${import.meta.env.VITE_API_URL || 'https://civicshield-1-om60.onrender.com'}${p.imageUrl}`) : null,
         })));
         
         const critical = fetchedPosts.filter(p => p.aiTag && (p.aiTag.toLowerCase().includes('critical') || p.aiTag.toLowerCase().includes('high')));
