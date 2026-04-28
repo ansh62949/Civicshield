@@ -29,7 +29,9 @@ public class AreaController {
     @GetMapping("/{areaName}")
     public ResponseEntity<Area> getAreaByName(@PathVariable String areaName,
                                              @RequestParam String state) {
-        Area area = areaService.getAreaByName(areaName, state);
+        // Normalize area name (e.g. "Sector 62, Noida" -> "Sector 62")
+        String cleanArea = areaName.split(",")[0].trim();
+        Area area = areaService.getAreaByName(cleanArea, state);
         return ResponseEntity.ok(area);
     }
 
@@ -43,7 +45,8 @@ public class AreaController {
     @GetMapping("/property-report/{areaName}")
     public ResponseEntity<AreaReportResponse> getPropertyReport(@PathVariable String areaName,
                                                                @RequestParam String state) {
-        AreaReportResponse report = areaService.getPropertyReport(areaName, state);
+        String cleanArea = areaName.split(",")[0].trim();
+        AreaReportResponse report = areaService.getPropertyReport(cleanArea, state);
         return ResponseEntity.ok(report);
     }
 

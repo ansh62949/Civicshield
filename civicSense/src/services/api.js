@@ -154,20 +154,24 @@ export const complaintsAPI = {
 // ============================================================================
 
 export const areasAPI = {
-  getArea: (areaName, state = 'Delhi') =>
-    apiClient.get(`/areas/${encodeURIComponent(areaName)}`, {
+  getArea: (areaName, state = 'Delhi') => {
+    const cleanArea = areaName.split(",")[0].trim();
+    return apiClient.get(`/areas/${encodeURIComponent(cleanArea)}`, {
       params: { state },
-    }),
+    });
+  },
 
   getLeaderboard: (state = 'Delhi', limit = 20) =>
     apiClient.get('/areas/leaderboard', {
       params: { state, limit },
     }),
 
-  getPropertyReport: (areaName, state = 'Delhi') =>
-    apiClient.get(`/areas/property-report/${encodeURIComponent(areaName)}`, {
+  getPropertyReport: (areaName, state = 'Delhi') => {
+    const cleanArea = areaName.split(",")[0].trim();
+    return apiClient.get(`/areas/property-report/${encodeURIComponent(cleanArea)}`, {
       params: { state },
-    }),
+    });
+  },
 }
 
 // ============================================================================
