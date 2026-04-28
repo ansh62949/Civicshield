@@ -90,7 +90,7 @@ git push -u origin main
    - **Runtime**: Java
    - **Build**: Maven (auto-detected)
    - Environment Variables:
-     - `MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/civicshield`
+     - `MONGODB_URI=<YOUR_MONGODB_URI>`
      - `CORS_ALLOWED_ORIGINS=https://civicshield-frontend.vercel.app`
 5. Click "Deploy"
 
@@ -136,13 +136,13 @@ git push -u origin main
 
 Example:
 ```
-mongodb+srv://admin:password123@civicshield.mongodb.net/civicshield?retryWrites=true&w=majority
+<YOUR_MONGODB_URI>
 ```
 
 #### Step 5.3: Add to Backend Environment
 On Railway backend project:
 ```
-MONGODB_URI=mongodb+srv://admin:password123@civicshield.mongodb.net/civicshield?retryWrites=true&w=majority
+MONGODB_URI=<YOUR_MONGODB_URI>
 ```
 
 ### Phase 6: Verify Deployment
@@ -579,7 +579,7 @@ ssl_certificate_key /etc/letsencrypt/live/civicshield.com/privkey.pem;
 ### Environment Variables
 ```bash
 # Create secrets in production
-export MONGODB_URI="mongodb+srv://..."
+export MONGODB_URI="<YOUR_MONGODB_URI>"
 export JWT_SECRET="your-secret-key"
 export API_KEY="your-api-key"
 ```
@@ -587,7 +587,7 @@ export API_KEY="your-api-key"
 ### Database Backups
 ```bash
 # Automated daily backup
-0 2 * * * mongodump --uri "mongodb+srv://..." --out "/backups/$(date +%Y%m%d)"
+0 2 * * * mongodump --uri "<YOUR_MONGODB_URI>" --out "/backups/$(date +%Y%m%d)"
 ```
 
 ---
@@ -677,10 +677,10 @@ docker exec container_id curl localhost:8080/health
 #### Database Connection Failed
 ```bash
 # Test MongoDB connection
-mongosh "mongodb+srv://admin:password@cluster.mongodb.net/civicshield"
+mongosh "<YOUR_MONGODB_URI>"
 
 # Check connection string format
-# Should be: mongodb+srv://user:pass@host/database
+# Should be: mongodb://user:pass@host/database
 ```
 
 ---
