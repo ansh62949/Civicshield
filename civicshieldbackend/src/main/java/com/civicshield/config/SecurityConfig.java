@@ -57,6 +57,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers("/actuator/health").permitAll()
+                        .requestMatchers("/health").permitAll()
                         // Allow all GET requests for reading data
                         .requestMatchers("GET", "/api/**").permitAll()
                         // ALL other requests require authentication
