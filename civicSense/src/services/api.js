@@ -5,8 +5,8 @@
 
 import axios from 'axios'
 
-const API = import.meta.env.VITE_API_URL || 'https://civicshield-1-om60.onrender.com';
-const API_BASE_URL = `${API}/api`;
+const API = `${import.meta.env.VITE_API_URL || 'https://civicshield-1-om60.onrender.com'}/api`;
+const API_BASE_URL = API;
 const AI_SERVICE_URL = import.meta.env.VITE_AI_SERVICE_URL || 'https://your-ai-url';
 
 // Create Axios instance

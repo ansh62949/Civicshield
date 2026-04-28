@@ -23,12 +23,10 @@ public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
-    private final CorsConfigurationSource corsConfigurationSource;
 
-    public SecurityConfig(JwtUtil jwtUtil, UserDetailsService userDetailsService, CorsConfigurationSource corsConfigurationSource) {
+    public SecurityConfig(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
-        this.corsConfigurationSource = corsConfigurationSource;
     }
 
     @Bean
@@ -48,22 +46,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors().configurationSource(corsConfigurationSource)
-                .and()
+                .cors().and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        // Public endpoints
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/uploads/**").permitAll()
-                        .requestMatchers("/actuator/health").permitAll()
-                        .requestMatchers("/health").permitAll()
-                        // Allow all GET requests for reading data
-                        .requestMatchers("GET", "/api/**").permitAll()
-                        // ALL other requests require authentication
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 .addFilterBefore(
                         new JwtAuthenticationFilter(jwtUtil, userDetailsService),
                         UsernamePasswordAuthenticationFilter.class);
