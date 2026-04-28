@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin/complaints")
-@CrossOrigin(origins = "*")
+
 @Slf4j
 public class AdminController {
 
@@ -56,3 +56,4 @@ public class AdminController {
     }
 
 }
+

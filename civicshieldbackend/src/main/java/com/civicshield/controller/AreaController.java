@@ -11,7 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/areas")
-@CrossOrigin(origins = "*")
+
 public class AreaController {
 
     private final AreaService areaService;
@@ -53,3 +53,4 @@ public class AreaController {
         return ResponseEntity.ok(globeData);
     }
 }
+

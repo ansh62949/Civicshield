@@ -9,7 +9,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/dashboard")
-@CrossOrigin(origins = "*")
+
 public class DashboardController {
 
     @GetMapping("/trends")
@@ -66,3 +66,4 @@ public class DashboardController {
         return ResponseEntity.ok(response);
     }
 }
+

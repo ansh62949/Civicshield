@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/stories")
-@CrossOrigin(origins = "*")
+
 public class StoryController {
 
     private final StoryRepository storyRepository;
@@ -88,3 +88,4 @@ public class StoryController {
         }
     }
 }
+

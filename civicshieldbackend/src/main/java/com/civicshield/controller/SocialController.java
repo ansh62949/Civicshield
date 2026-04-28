@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/social")
-@CrossOrigin(origins = "*")
+
 @Slf4j
 public class SocialController {
 
@@ -101,3 +101,4 @@ public class SocialController {
     }
 
 }
+

@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/posts")
-@CrossOrigin(origins = "*")
+
 public class PostController {
 
     private final PostService postService;
@@ -160,3 +160,4 @@ public class PostController {
         }
     }
 }
+

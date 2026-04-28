@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/complaints")
-@CrossOrigin(origins = "*")
+
 @Slf4j
 public class ComplaintController {
 
@@ -78,3 +78,4 @@ public class ComplaintController {
         return ResponseEntity.ok(nearby);
     }
 }
+
