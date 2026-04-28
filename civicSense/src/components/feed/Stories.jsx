@@ -84,7 +84,7 @@ export const StoriesRow = ({ onStoryClick }) => {
             <div className={`absolute inset-0 rounded-full bg-gradient-to-tr ${getStoryBorder(story.tension || 50)} animate-spin-slow`}></div>
             <div className="absolute inset-[2px] rounded-full bg-[#020617] border-[2px] border-[#020617] overflow-hidden flex items-center justify-center">
               {story.imageUrl ? (
-                 <img src={`${import.meta.env.VITE_API_URL || 'https://your-backend-url'}${story.imageUrl}`} className="w-full h-full object-cover" alt="story" />
+                 <img src={`${import.meta.env.VITE_API_URL || 'https://civicshield-1-om60.onrender.com'}${story.imageUrl}`} className="w-full h-full object-cover" alt="story" />
               ) : (
                  <span className="text-white font-bold">{story.userName?.substring(0, 2).toUpperCase()}</span>
               )}
@@ -201,7 +201,7 @@ export const StoryViewer = ({ story, onClose }) => {
           
           {story.imageUrl ? (
              <div className="absolute inset-0 z-0">
-                <img src={`${import.meta.env.VITE_API_URL || 'https://your-backend-url'}${story.imageUrl}`} className="w-full h-full object-cover" alt="story" />
+                <img src={`${import.meta.env.VITE_API_URL || 'https://civicshield-1-om60.onrender.com'}${story.imageUrl}`} className="w-full h-full object-cover" alt="story" />
                 <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/60 via-transparent to-[#0f172a]/90"></div>
              </div>
           ) : null}
@@ -227,3 +227,4 @@ export const StoryViewer = ({ story, onClose }) => {
     </div>
   );
 };
+

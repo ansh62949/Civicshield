@@ -36,7 +36,7 @@ export const DataStream = () => {
               const raw = p.imageUrl || p.image;
               if (!raw || raw === "null" || raw === "undefined") return null;
               if (raw.startsWith('http') || raw.startsWith('data:')) return raw;
-              return `${import.meta.env.VITE_API_URL || 'https://your-backend-url'}${raw.startsWith('/') ? '' : '/'}${raw}`;
+              return `${import.meta.env.VITE_API_URL || 'https://civicshield-1-om60.onrender.com'}${raw.startsWith('/') ? '' : '/'}${raw}`;
             })(),
             isUpvoted: p.isUpvoted || false
           })));
@@ -82,3 +82,4 @@ export const DataStream = () => {
     </div>
   );
 };
+

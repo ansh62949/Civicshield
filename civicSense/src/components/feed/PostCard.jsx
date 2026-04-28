@@ -60,7 +60,7 @@ export const PostCard = React.memo(({ post, onUpvote, onComment, onShare, onClic
   let imageUrl = null;
   const rawImg = post.imageUrl || post.image;
   if (rawImg && rawImg !== "null" && rawImg !== "undefined") {
-    imageUrl = (rawImg.startsWith("http") || rawImg.startsWith("data:")) ? rawImg : `${import.meta.env.VITE_API_URL || 'https://your-backend-url'}${rawImg.startsWith('/') ? '' : '/'}${rawImg}`;
+    imageUrl = (rawImg.startsWith("http") || rawImg.startsWith("data:")) ? rawImg : `${import.meta.env.VITE_API_URL || 'https://civicshield-1-om60.onrender.com'}${rawImg.startsWith('/') ? '' : '/'}${rawImg}`;
   } else if (post.hasPhoto) {
     imageUrl = `https://picsum.photos/seed/${post.id}/800/800`;
   }
@@ -297,3 +297,4 @@ export const GeoAlertCard = ({ post, onComment, onShare, onClick }) => {
     </motion.div>
   );
 };
+

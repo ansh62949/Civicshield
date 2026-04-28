@@ -40,7 +40,7 @@ export function PostCard({ post, onUpvote, onComment }) {
       return null
     }
     if (imageUrl.startsWith('http')) return imageUrl
-    if (imageUrl.startsWith('/api/')) return `${import.meta.env.VITE_API_URL || 'https://your-backend-url'}${imageUrl}`
+    if (imageUrl.startsWith('/api/')) return `${import.meta.env.VITE_API_URL || 'https://civicshield-1-om60.onrender.com'}${imageUrl}`
     return imageUrl
   }
   
@@ -211,3 +211,4 @@ export function PostCard({ post, onUpvote, onComment }) {
     </div>
   )
 }
+

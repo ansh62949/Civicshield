@@ -39,7 +39,7 @@ export const TrendingScreen = ({ currentLocation, cityCoords }) => {
           timeAgo: p.createdAt ? new Date(p.createdAt).toLocaleDateString() : "Recently",
           comments: Array.isArray(p.comments) ? p.comments.length : (p.comments || 0),
           hasPhoto: !!(p.imageUrl || p.image),
-          imageUrl: p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `${import.meta.env.VITE_API_URL || 'https://your-backend-url'}${p.imageUrl}`) : null,
+          imageUrl: p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `${import.meta.env.VITE_API_URL || 'https://civicshield-1-om60.onrender.com'}${p.imageUrl}`) : null,
         }));
 
         const finalPosts = mappedPosts.length > 0 ? mappedPosts : POSTS;
@@ -186,3 +186,4 @@ export const TrendingScreen = ({ currentLocation, cityCoords }) => {
     </div>
   );
 };
+

@@ -239,7 +239,7 @@ export const ProfileScreen = ({ onPostClick, currentLocation, cityCoords }) => {
                 let imageUrl = null;
                 const raw = post.imageUrl || post.image;
                 if (raw && raw !== "null" && raw !== "undefined") {
-                  imageUrl = (raw.startsWith("http") || raw.startsWith("data:")) ? raw : `${import.meta.env.VITE_API_URL || 'https://your-backend-url'}${raw.startsWith('/') ? '' : '/'}${raw}`;
+                  imageUrl = (raw.startsWith("http") || raw.startsWith("data:")) ? raw : `${import.meta.env.VITE_API_URL || 'https://civicshield-1-om60.onrender.com'}${raw.startsWith('/') ? '' : '/'}${raw}`;
                 } else if (post.hasPhoto) {
                   imageUrl = `https://picsum.photos/seed/${post.id}/800/800`;
                 }
@@ -317,3 +317,4 @@ export const ProfileScreen = ({ onPostClick, currentLocation, cityCoords }) => {
     </div>
   );
 };
+
