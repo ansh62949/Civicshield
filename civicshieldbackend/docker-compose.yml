@@ -1,0 +1,70 @@
+services:
+  # Spring Boot Backend
+  backend:
+    build:
+      context: ../civicshieldbackend
+      dockerfile: Dockerfile
+    container_name: civicshield-backend
+    ports:
+      - "8085:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://admin:civicshield123@mongodb:27017/civicshield?authSource=admin
+      SPRING_DATA_MONGODB_DATABASE: civicshield
+      AI_SERVICE_URL: http://ai-service:5000
+      SPRING_PROFILES_ACTIVE: docker
+      JAVA_OPTS: "-Xmx512m -Xms256m"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      ai-service:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    networks:
+      - civicshield_network
+    restart: unless-stopped
+
+  # MongoDB Service
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: civicshield123
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--username", "admin", "--password", "civicshield123", "--authenticationDatabase", "admin", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - civicshield_network
+    restart: unless-stopped
+
+  # AI Service (Python/Flask or similar)
+  ai-service:
+    build:
+      context: ../ai-service
+      dockerfile: Dockerfile
+    container_name: ai-service
+    ports:
+      - "5000:5000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:5000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 600s
+    networks:
+      - civicshield_network
+    restart: unless-stopped
+
+networks:
+  civicshield_network:
+    driver: bridge
