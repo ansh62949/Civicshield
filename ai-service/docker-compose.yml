@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  # MongoDB Service
+  mongodb:
+    image: mongo:7.0-latest
+    container_name: civicshield-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: civicshield
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - civicshield-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # CivicShield AI Service
+  ai-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: civicshield-ai
+    ports:
+      - "5000:5000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=info
+    depends_on:
+      - mongodb
+    networks:
+      - civicshield-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # CivicShield Backend (Spring Boot)
+  backend:
+    image: maven:3.9-eclipse-temurin-17 as builder
+    container_name: civicshield-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/civicshield
+      - AI_SERVICE_URL=http://ai-service:5000
+      - SERVER_PORT=8080
+    depends_on:
+      - mongodb
+      - ai-service
+    networks:
+      - civicshield-network
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
+
+networks:
+  civicshield-network:
+    driver: bridge

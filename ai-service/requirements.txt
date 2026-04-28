@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pillow
+numpy
+torch
+transformers
+scikit-learn
+lightgbm
+pydantic
+pydantic-settings
+python-dotenv
+requests
+aiofiles
