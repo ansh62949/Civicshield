@@ -53,43 +53,48 @@ export const getScoreTrend = (trend) => {
 
 export const PriorityBadge = ({ type }) => {
   const badgeStyles = {
-    CIVIC: { bg: "rgba(129, 140, 248, 0.1)", text: "#a5b4fc", border: "rgba(129, 140, 248, 0.2)", icon: "🏗️" },
-    SAFETY: { bg: "rgba(251, 191, 36, 0.1)", text: "#fcd34d", border: "rgba(251, 191, 36, 0.2)", icon: "⚠️" },
-    CRIME: { bg: "rgba(248, 113, 113, 0.1)", text: "#fca5a5", border: "rgba(248, 113, 113, 0.2)", icon: "🚨" },
-    GEO_ALERT: { bg: "rgba(52, 211, 153, 0.1)", text: "#6ee7b7", border: "rgba(52, 211, 153, 0.2)", icon: "🌍" },
-    ENVIRONMENT: { bg: "rgba(163, 230, 53, 0.1)", text: "#bef264", border: "rgba(163, 230, 53, 0.2)", icon: "🌿" },
-    NEWS: { bg: "rgba(192, 132, 252, 0.1)", text: "#d8b4fe", border: "rgba(192, 132, 252, 0.2)", icon: "📰" }
+    CIVIC: { bg: "bg-primary/10", text: "text-primary-light", border: "border-primary/30", icon: "🏗️" },
+    SAFETY: { bg: "bg-warning/10", text: "text-warning", border: "border-warning/30", icon: "⚠️" },
+    CRIME: { bg: "bg-critical/10", text: "text-critical", border: "border-critical/30", icon: "🚨" },
+    GEO_ALERT: { bg: "bg-accent/10", text: "text-accent", border: "border-accent/30", icon: "🌍" },
+    ENVIRONMENT: { bg: "bg-success/10", text: "text-success", border: "border-success/30", icon: "🌿" },
+    NEWS: { bg: "bg-primary/10", text: "text-primary", border: "border-primary/30", icon: "📰" }
   };
 
   const style = badgeStyles[type] || badgeStyles.CIVIC;
 
   return (
     <span
-      className="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-md shadow-inner border"
-      style={{ backgroundColor: style.bg, color: style.text, borderColor: style.border }}
+      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest backdrop-blur-xl border shadow-lg ${style.bg} ${style.text} ${style.border}`}
     >
-      {style.icon} {type.replace("_", " ")}
+      <span className="text-xs">{style.icon}</span>
+      {type.replace("_", " ")}
     </span>
   );
 };
 
-export const Toast = ({ message, icon = "✓", onClose }) => {
+export const Toast = ({ message, icon = "⚡", onClose }) => {
   React.useEffect(() => {
-    const timer = setTimeout(onClose, 3000);
+    const timer = setTimeout(onClose, 4000);
     return () => clearTimeout(timer);
   }, [onClose]);
 
   return (
     <AnimatePresence>
       <motion.div 
-        initial={{ opacity: 0, y: 50, scale: 0.9 }}
+        initial={{ opacity: 0, y: 100, scale: 0.8 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 50, scale: 0.9 }}
-        transition={{ type: "spring", stiffness: 400, damping: 25 }}
-        className="fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-[#020617]/90 backdrop-blur-xl rounded-full px-6 py-3 shadow-[0_10px_30px_rgba(139,92,246,0.3)] border border-primary/30 z-[100] flex items-center gap-3"
+        exit={{ opacity: 0, y: 100, scale: 0.8 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[1000] flex items-center gap-4 bg-bg-deep/80 backdrop-blur-3xl border border-white/20 px-8 py-4 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_30px_var(--glow-primary)]"
       >
-        <span className="text-primary drop-shadow-[0_0_8px_rgba(139,92,246,0.8)] text-lg">{icon}</span>
-        <span className="text-sm font-bold text-white tracking-wide whitespace-nowrap">{message}</span>
+        <div className="w-10 h-10 flex items-center justify-center rounded-full bg-primary/20 border border-primary/40 animate-pulse">
+           <span className="text-xl text-primary drop-shadow-[0_0_8px_var(--primary)]">{icon}</span>
+        </div>
+        <div className="flex flex-col">
+           <span className="text-xs font-black text-primary-light uppercase tracking-widest mb-0.5">Intelligence Update</span>
+           <span className="text-sm font-bold text-white tracking-wide">{message}</span>
+        </div>
       </motion.div>
     </AnimatePresence>
   );

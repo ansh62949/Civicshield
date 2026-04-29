@@ -432,8 +432,7 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Notifications Toast */}
+{/* Notifications Toast */}
       {showNotificationToast && (
         <Toast
           message={toastMessage || "New intelligence gathered 🔔"}
@@ -446,65 +445,89 @@ export default function App() {
 
 const CityMapVis = ({ posts, onPostClick }) => {
   return (
-    <div className="w-full h-full relative bg-[#040914] border border-white/10 rounded-2xl overflow-hidden shadow-[inset_0_0_80px_rgba(0,0,0,0.8)]">
-       {/* High-tech Map Background */}
-       <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(99,102,241,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.2) 1px, transparent 1px)', backgroundSize: '50px 50px' }}></div>
-       <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '10px 10px' }}></div>
+    <div className="w-full h-full relative bg-[#020617] border border-white/5 rounded-3xl overflow-hidden shadow-[inset_0_0_100px_rgba(99,102,241,0.15)]">
+       {/* High-tech Map Grid Background */}
+       <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'linear-gradient(var(--border-glass) 1px, transparent 1px), linear-gradient(90deg, var(--border-glass) 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
+       <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '10px 10px' }}></div>
        
-       {/* Radar Scanner Sweep */}
-       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-indigo-500/10 rounded-full pointer-events-none"></div>
-       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-indigo-500/20 rounded-full pointer-events-none"></div>
-       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-indigo-500/30 rounded-full pointer-events-none"></div>
-       <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] border-t-2 border-indigo-500 origin-top-left animate-spin rounded-tl-full pointer-events-none" style={{ animationDuration: '4s', opacity: 0.2 }}></div>
+       {/* Radar Scanner Sweep - Enhanced Neon Rings */}
+       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-primary/10 rounded-full pointer-events-none"></div>
+       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-primary/20 rounded-full pointer-events-none"></div>
+       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-primary/30 rounded-full pointer-events-none shadow-[0_0_50px_rgba(99,102,241,0.1)]"></div>
+       <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] border-t-2 border-accent/40 origin-top-left animate-spin rounded-tl-full pointer-events-none shadow-[0_0_30px_rgba(6,182,212,0.2)]" style={{ animationDuration: '4s' }}></div>
 
-       {/* Render Glowing Points */}
+       {/* Central Pulse */}
+       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-primary rounded-full shadow-[0_0_20px_var(--primary)] animate-pulse z-10"></div>
+       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 border border-primary/30 rounded-full animate-ping z-0"></div>
+
+       {/* Render Glowing Detection Points */}
        {posts.map((post) => {
-          // Deterministic pseudo-random position
           const idNum = typeof post.id === 'string' ? post.id.charCodeAt(0) : post.id || Math.random() * 100;
           const top = `${10 + ((idNum * 17) % 80)}%`;
           const left = `${10 + ((idNum * 23) % 80)}%`;
           
-          let colorClass = "bg-green-500 shadow-[0_0_15px_#22c55e]";
-          let ringClass = "border-green-400";
+          let colorClass = "bg-success shadow-[0_0_15px_var(--success)]";
+          let ringClass = "border-success/50";
           
-          const tag = (post.aiTag || "").toLowerCase();
-          if(tag.includes('critical')) {
-             colorClass = "bg-red-500 shadow-[0_0_20px_#ef4444] animate-pulse";
-             ringClass = "border-red-400";
-          } else if(tag.includes('high')) {
-             colorClass = "bg-orange-500 shadow-[0_0_15px_#f97316]";
-             ringClass = "border-orange-400";
-          } else if(tag.includes('medium')) {
-             colorClass = "bg-yellow-500 shadow-[0_0_15px_#eab308]";
-             ringClass = "border-yellow-400";
+          const severity = (post.severity || "").toUpperCase();
+          if(severity === 'CRITICAL') {
+             colorClass = "bg-critical shadow-[0_0_25px_var(--critical)] animate-pulse";
+             ringClass = "border-critical/60 animate-ping";
+          } else if(severity === 'HIGH') {
+             colorClass = "bg-orange-500 shadow-[0_0_18px_rgba(249,115,22,0.6)]";
+             ringClass = "border-orange-500/50";
+          } else if(severity === 'MEDIUM') {
+             colorClass = "bg-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.6)]";
+             ringClass = "border-yellow-500/50";
           }
           
           return (
-             <div key={post.id} className="absolute group cursor-pointer hover:scale-150 transition-transform z-20" style={{ top, left }} onClick={() => onPostClick(post)}>
-                 <div className={`absolute -inset-2 border ${ringClass} rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping`}></div>
-                 <div className={`w-3 h-3 rounded-full ${colorClass} border border-white/50 relative z-10`}></div>
+             <motion.div 
+               key={post.id} 
+               initial={{ scale: 0 }}
+               animate={{ scale: 1 }}
+               className="absolute group cursor-pointer z-20" 
+               style={{ top, left }} 
+               onClick={() => onPostClick(post)}
+             >
+                 <div className={`absolute -inset-3 border-2 ${ringClass} rounded-full opacity-0 group-hover:opacity-100 transition-opacity`}></div>
+                 <div className={`w-3.5 h-3.5 rounded-full ${colorClass} border border-white/40 relative z-10 group-hover:scale-150 transition-transform duration-300`}></div>
                  
-                 {/* HUD Tooltip */}
-                 <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden group-hover:flex flex-col w-48 bg-[#020617]/90 p-3 rounded-lg backdrop-blur-md border border-white/20 text-white z-50 pointer-events-none shadow-[0_0_20px_rgba(0,0,0,0.8)]">
-                    <span className="text-[9px] uppercase tracking-wider text-indigo-400 mb-1 border-b border-white/10 pb-1">ID: {post.id}</span>
-                    <span className="text-xs font-bold line-clamp-2 leading-tight">{post.text?.substring(0, 50)}...</span>
+                 {/* HUD Tooltip - Premium Aesthetic */}
+                 <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden group-hover:flex flex-col w-56 bg-bg-deep/90 p-4 rounded-2xl backdrop-blur-xl border border-white/20 text-white z-50 pointer-events-none shadow-2xl">
+                    <div className="flex items-center justify-between mb-2 border-b border-white/10 pb-2">
+                       <span className="text-[9px] font-black tracking-widest text-primary-light">DETECTION: #{post.id?.substring(0, 8)}</span>
+                       <span className="text-[8px] bg-white/10 px-1.5 py-0.5 rounded uppercase">{post.category}</span>
+                    </div>
+                    <span className="text-xs font-bold leading-tight mb-2 text-white/90">{post.text?.substring(0, 60)}...</span>
+                    <div className="flex items-center justify-between">
+                       <span className="text-[9px] text-text-tertiary">CONFIDENCE: {(post.aiConfidence * 100).toFixed(0)}%</span>
+                       <span className="text-[9px] text-text-tertiary">📍 {post.area}</span>
+                    </div>
                  </div>
-             </div>
+             </motion.div>
           )
        })}
        
-       {/* Map Legend */}
-       <div className="absolute bottom-4 left-4 bg-[#0f172a]/80 p-4 rounded-xl border border-white/10 backdrop-blur-md z-10">
-           <h4 className="text-xs font-bold text-indigo-300 mb-3 uppercase tracking-widest">Severity Matrix</h4>
-           <div className="flex flex-col gap-2 text-[10px] font-bold text-slate-300">
-              <span className="flex items-center gap-2"><span className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_#ef4444] animate-pulse"></span> CRITICAL ALERT</span>
-              <span className="flex items-center gap-2"><span className="w-2.5 h-2.5 rounded-full bg-orange-500 shadow-[0_0_8px_#f97316]"></span> HIGH PRIORITY</span>
-              <span className="flex items-center gap-2"><span className="w-2.5 h-2.5 rounded-full bg-yellow-500 shadow-[0_0_8px_#eab308]"></span> MEDIUM IMPACT</span>
-              <span className="flex items-center gap-2"><span className="w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></span> STANDARD LOG</span>
+       {/* Map Legend - Futuristic HUD style */}
+       <div className="absolute bottom-6 left-6 glass-panel p-5 z-10">
+           <h4 className="text-[10px] font-black text-primary-light mb-4 uppercase tracking-[0.2em] flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
+              Threat Vector Analysis
+           </h4>
+           <div className="space-y-3">
+              {[
+                { label: 'CRITICAL ALERT', color: 'bg-critical', shadow: 'shadow-[0_0_8px_var(--critical)]' },
+                { label: 'HIGH RISK', color: 'bg-orange-500', shadow: 'shadow-[0_0_8px_rgba(249,115,22,0.8)]' },
+                { label: 'ACTIVE MONITOR', color: 'bg-success', shadow: 'shadow-[0_0_8px_var(--success)]' }
+              ].map((item, idx) => (
+                <div key={idx} className="flex items-center gap-3 text-[9px] font-bold text-text-secondary tracking-widest">
+                   <div className={`w-2.5 h-2.5 rounded-full ${item.color} ${item.shadow} ${item.label === 'CRITICAL ALERT' ? 'animate-pulse' : ''}`}></div>
+                   {item.label}
+                </div>
+              ))}
            </div>
        </div>
-       
-       {/* Map Header Overlay */}
        <div className="absolute top-4 left-4 z-10">
           <div className="bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded border border-indigo-500/30 text-[10px] font-bold uppercase tracking-widest backdrop-blur-sm shadow-[0_0_10px_rgba(99,102,241,0.2)]">
              Sector Scan Active

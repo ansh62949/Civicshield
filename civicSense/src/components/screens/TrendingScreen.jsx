@@ -103,33 +103,51 @@ export const TrendingScreen = ({ currentLocation, cityCoords }) => {
 
   return (
     <div className="w-full flex flex-col bg-transparent text-white min-h-screen">
-      <div className="bg-white/5 backdrop-blur-lg px-4 py-6 mb-2 border-b border-white/10 shadow-[0_5px_15px_rgba(0,0,0,0.2)]">
-        <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600 mb-4">🔥 Trending Now</h2>
+      <div className="bg-white/2 backdrop-blur-2xl px-6 py-8 mb-4 border-b border-white/5 shadow-2xl relative overflow-hidden">
+        {/* Animated background glow */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[100px] -mr-32 -mt-32"></div>
         
-        {loading ? (
-          <div className="animate-pulse space-y-3">
-            {[1,2,3].map(i => <div key={i} className="h-12 bg-white/5 border border-white/10 rounded-xl"></div>)}
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {trendingTags.map((tag, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 shadow-sm hover:shadow-[0_0_15px_rgba(255,165,0,0.2)] transition-all group cursor-pointer">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl group-hover:scale-110 transition-transform">{tag.emoji}</span>
-                  <div>
-                    <p className="font-bold text-gray-100">{tag.label}</p>
-                    <p className="text-xs text-gray-400">{tag.count} active reports</p>
+        <div className="relative z-10">
+          <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-primary-light to-secondary mb-2 uppercase tracking-tighter">
+            🤖 AI Intelligence Dashboard
+          </h2>
+          <p className="text-text-secondary text-sm mb-6">Real-time civic trend analysis and predictive insights</p>
+          
+          {loading ? (
+            <div className="space-y-4">
+              {[1,2,3].map(i => <div key={i} className="h-16 skeleton rounded-2xl"></div>)}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {trendingTags.map((tag, index) => (
+                <motion.div 
+                  key={index} 
+                  whileHover={{ scale: 1.02 }}
+                  className="flex items-center justify-between p-4 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-lg hover:border-primary/40 group cursor-pointer transition-all"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 group-hover:bg-primary/20 transition-colors">
+                      <span className="text-2xl">{tag.emoji}</span>
+                    </div>
+                    <div>
+                      <p className="font-bold text-white tracking-tight">{tag.label} ANALYSIS</p>
+                      <p className="text-[10px] text-text-tertiary uppercase tracking-widest">{tag.count} active detections</p>
+                    </div>
                   </div>
-                </div>
-                <div className="text-right">
-                  <span className={`text-xs font-bold px-2 py-1 rounded-full border ${tag.trend.includes("+") ? "bg-red-900/40 text-red-400 border-red-500/30" : "bg-green-900/40 text-green-400 border-green-500/30"}`}>
-                    {tag.trend}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+                  <div className="text-right">
+                    <span className={`text-xs font-black px-3 py-1 rounded-lg border shadow-sm ${
+                      tag.trend.includes("+") 
+                        ? "bg-red-500/10 text-red-400 border-red-500/30" 
+                        : "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+                    }`}>
+                      {tag.trend}
+                    </span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="md:max-w-xl md:mx-auto pt-4 px-0 md:px-4 pb-20">
