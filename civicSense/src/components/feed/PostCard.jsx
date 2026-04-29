@@ -137,8 +137,6 @@ export const PostCard = React.memo(({ post, onUpvote, onComment, onShare, onClic
                </motion.div>
              )}
            </AnimatePresence>
-        </div>
-      </div>
 
       {/* Image Body */}
       {(imageUrl && !imageError) ? (
@@ -269,7 +267,6 @@ export const PostCard = React.memo(({ post, onUpvote, onComment, onShare, onClic
             View all {post.comments} comments
           </button>
         )}
-      </div>
     </motion.div>
   );
 });
