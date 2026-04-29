@@ -240,8 +240,9 @@ export const ProfileScreen = ({ onPostClick, currentLocation, cityCoords }) => {
                 const raw = post.imageUrl || post.image;
                 if (raw && raw !== "null" && raw !== "undefined") {
                   imageUrl = (raw.startsWith("http") || raw.startsWith("data:")) ? raw : `${import.meta.env.VITE_API_URL || 'https://civicshield-1-om60.onrender.com'}${raw.startsWith('/') ? '' : '/'}${raw}`;
-                } else if (post.hasPhoto) {
-                  imageUrl = `https://picsum.photos/seed/${post.id}/800/800`;
+                } else {
+                  // Default image if none provided
+                  imageUrl = `https://picsum.photos/seed/${post.id || Math.random()}/800/800`;
                 }
 
                 return (
@@ -252,21 +253,18 @@ export const ProfileScreen = ({ onPostClick, currentLocation, cityCoords }) => {
                     onClick={() => onPostClick(post)}
                     className="aspect-square bg-[#0f172a] relative overflow-hidden group cursor-pointer"
                   >
-                    {imageUrl ? (
-                      <img src={imageUrl} alt="Post" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" onError={(e) => { e.target.src = 'https://placehold.co/400x400/1e293b/fff?text=Image+Unavailable'; }} />
-                    ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center p-2 bg-gradient-to-br from-[#1e293b] to-[#0f172a]">
-                        <span className="text-2xl mb-1">
-                          {post.type === "CIVIC" ? "🏗️" : post.type === "CRIME" ? "🚨" : post.type === "ENVIRONMENT" ? "🌿" : "⚠️"}
-                        </span>
-                        <p className="text-[9px] md:text-xs text-text-secondary text-center line-clamp-3 leading-tight italic px-1">
-                          "{post.text || post.content}"
-                        </p>
-                      </div>
-                    )}
+                    <img 
+                      src={imageUrl} 
+                      alt="Post" 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                      loading="lazy" 
+                      onError={(e) => { 
+                        e.target.src = `https://picsum.photos/seed/${post.id || 'err'}/400/400`; 
+                      }} 
+                    />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <div className="flex gap-4 font-bold">
-                        <span>❤️ {post.upvotes || 0}</span>
+                        <span>❤️ {Array.isArray(post.upvotes) ? post.upvotes.length : (typeof post.upvotes === 'number' ? post.upvotes : 0)}</span>
                       </div>
                     </div>
                   </motion.div>
