@@ -16,7 +16,10 @@ public class AiClassifyResult {
 
     private String category;
 
+    @JsonProperty("priority")
     private String severity;
+
+    private String priority;
 
     private double confidence;
 

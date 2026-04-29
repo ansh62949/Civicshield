@@ -59,15 +59,10 @@ public class AiService {
             String classifyUrl = aiServiceUrl + "/classify";
             
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+            headers.setContentType(MediaType.APPLICATION_JSON);
 
-            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-            body.add("content", text);
-            if (imageFile != null && imageFile.exists()) {
-                body.add("image", new FileSystemResource(imageFile));
-            }
-
-            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+            Map<String, String> requestBody = Map.of("text", text);
+            HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
 
             AiClassifyResult result = restTemplate.postForObject(classifyUrl, requestEntity, AiClassifyResult.class);
             
