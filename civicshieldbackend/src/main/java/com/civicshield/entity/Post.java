@@ -51,6 +51,8 @@ public class Post {
 
     private String aiSeverity;
 
+    private String aiTag;
+
     @Builder.Default
     private double aiConfidence = 0.0;
 
