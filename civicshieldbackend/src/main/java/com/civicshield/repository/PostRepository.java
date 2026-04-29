@@ -20,4 +20,6 @@ public interface PostRepository extends MongoRepository<Post, String> {
     List<Post> findByLocationBoundingBox(double latMin, double latMax, double lonMin, double lonMax);
 
     long countByStateAndSeverity(String state, String severity);
+
+    List<Post> findByLocationLabelAndCreatedAtAfter(String locationLabel, java.time.LocalDateTime date);
 }

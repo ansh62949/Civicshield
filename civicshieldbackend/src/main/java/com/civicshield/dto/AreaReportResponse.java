@@ -20,4 +20,6 @@ public class AreaReportResponse {
     private String verdict;
     private String verdictReason;
     private Map<String, Double> subScores;
+    private List<String> aiInsights;
+    private Map<String, Double> trends;
 }
