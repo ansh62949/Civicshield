@@ -26,6 +26,22 @@ export const TrendingScreen = ({ currentLocation, cityCoords }) => {
     const fetchTrendingData = async () => {
       setLoading(true);
       try {
+        // Fetch Trends
+        const trendResponse = await postsAPI.getTrending();
+        const apiTrends = trendResponse.data?.trends || [];
+        
+        if (apiTrends.length > 0) {
+          const emojiMap = { ROAD: "🏗️", GARBAGE: "🗑️", WATER: "💧", CRIME: "🚨", OTHER: "📝", SAFETY: "🛡️" };
+          const tags = apiTrends.map(t => ({
+            emoji: emojiMap[t.category] || "🔥",
+            label: t.category,
+            count: t.count,
+            trend: `+${t.growth}% this week`
+          }));
+          setTrendingTags(tags);
+        }
+
+        // Fetch Posts
         const coords = cityCoords?.[currentLocation] || { lat: 28.6139, lon: 77.2090 };
         const response = await postsAPI.getFeed(coords.lat, coords.lon, 50, 0, 20);
         const apiPosts = response.data?.content || response.data || [];

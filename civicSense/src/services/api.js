@@ -123,6 +123,9 @@ export const postsAPI = {
 
   getUserPosts: (userId) =>
     apiClient.get(`/posts/user/${userId}`),
+
+  getTrending: () =>
+    apiClient.get('/trending'),
 }
 
 // ============================================================================

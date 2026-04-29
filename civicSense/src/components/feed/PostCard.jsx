@@ -244,6 +244,25 @@ export const PostCard = React.memo(({ post, onUpvote, onComment, onShare, onClic
           )}
         </div>
 
+        {/* AI Classification Tags */}
+        <div className="flex gap-2 mb-3">
+          {post.category && (
+            <span className="px-2 py-0.5 text-[10px] font-bold rounded bg-primary/20 text-primary-light border border-primary/30 uppercase tracking-tighter">
+              {post.category}
+            </span>
+          )}
+          {post.severity && (
+            <span className={`px-2 py-0.5 text-[10px] font-bold rounded text-white uppercase tracking-tighter shadow-sm ${
+              post.severity === 'CRITICAL' ? 'bg-critical' : 
+              post.severity === 'HIGH' ? 'bg-orange-500' : 
+              post.severity === 'MEDIUM' ? 'bg-yellow-500' : 
+              'bg-success'
+            }`}>
+              {post.severity}
+            </span>
+          )}
+        </div>
+
         {/* Civic Impact */}
         {post.civicImpact && (
           <div className="mb-2">
