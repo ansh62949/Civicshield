@@ -29,6 +29,7 @@ const getSeverityColor = (tag) => {
 
 export const PostCard = React.memo(({ post, onUpvote, onComment, onShare, onClick, onDelete }) => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isUpvotedLocal, setIsUpvotedLocal] = useState(
     Array.isArray(post.upvotes) ? post.upvotes.includes(user?.id || user?.username) : false
@@ -39,7 +40,6 @@ export const PostCard = React.memo(({ post, onUpvote, onComment, onShare, onClic
   const [showHeartAnim, setShowHeartAnim] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  const { user } = useAuth();
 
   const handleUpvote = (e) => {
     e?.stopPropagation();
