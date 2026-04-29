@@ -1,5 +1,6 @@
 package com.civicshield.service;
 
+import com.civicshield.dto.AiClassifyResult;
 import com.civicshield.entity.Area;
 import com.civicshield.entity.Post;
 import com.civicshield.entity.User;
@@ -10,7 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,20 +27,25 @@ public class PostService {
     private final UserRepository userRepository;
     private final AreaRepository areaRepository;
     private final ScoreEngine scoreEngine;
+    private final AiService aiService;
 
     public PostService(PostRepository postRepository, UserRepository userRepository, 
-                      AreaRepository areaRepository, ScoreEngine scoreEngine) {
+                      AreaRepository areaRepository, ScoreEngine scoreEngine, AiService aiService) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.areaRepository = areaRepository;
         this.scoreEngine = scoreEngine;
+        this.aiService = aiService;
     }
 
-    public Post createPost(String authorId, String content, String imageUrl, 
+    public Post createPost(String authorId, String content, String imageUrl, File imageFile,
                           String locationLabel, String state, double latitude, 
                           double longitude, boolean isAnonymous) {
         User author = userRepository.findById(authorId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Call AI Service for classification
+        AiClassifyResult aiResult = aiService.classify(content, imageFile);
 
         Post post = Post.builder()
                 .authorId(authorId)
@@ -48,10 +57,14 @@ public class PostService {
                 .state(state)
                 .latitude(latitude)
                 .longitude(longitude)
-                .category("OTHER")
-                .severity("LOW")
-                .aiVerified(false)
-                .civicImpactScore(0.0)
+                .category(aiResult.getCategory())
+                .severity(aiResult.getSeverity())
+                .aiVerified(aiResult.getConfidence() > 0.7)
+                .aiCategory(aiResult.getCategory())
+                .aiSeverity(aiResult.getSeverity())
+                .aiConfidence(aiResult.getConfidence())
+                .aiTag(formatAiTag(aiResult))
+                .civicImpactScore(aiResult.getCivicImpactScore())
                 .isAnonymous(isAnonymous)
                 .status("OPEN")
                 .createdAt(LocalDateTime.now())
@@ -61,9 +74,19 @@ public class PostService {
         postRepository.save(post);
 
         scoreEngine.updateAreaScore(locationLabel, state, post.getCategory(), post.getSeverity());
-        awardCivicPoints(author, "LOW", post);
+        awardCivicPoints(author, post.getSeverity(), post);
 
         return post;
+    }
+
+    private String formatAiTag(AiClassifyResult result) {
+        String icon = switch (result.getSeverity()) {
+            case "CRITICAL" -> "🚨";
+            case "HIGH" -> "🔴";
+            case "MEDIUM" -> "🟠";
+            default -> "🟢";
+        };
+        return String.format("%s %s · %s", icon, result.getSeverity(), result.getCategory());
     }
 
     public Page<Post> getFeed(double lat, double lon, double radiusKm, 

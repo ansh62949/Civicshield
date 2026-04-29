@@ -41,9 +41,12 @@ public class PostController {
         
         String username = authentication.getName();
         String imageUrl = null;
+        File imageFile = null;
         
         if (request.getImage() != null && !request.getImage().isEmpty()) {
             imageUrl = saveBase64Image(request.getImage());
+            String filename = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+            imageFile = new File(uploadDir, filename);
         }
 
         Boolean isAnon = request.getIsAnonymous() != null ? request.getIsAnonymous() : false;
@@ -52,6 +55,7 @@ public class PostController {
                 username, 
                 request.getContent(), 
                 imageUrl, 
+                imageFile,
                 request.getLocationLabel(), 
                 request.getState(), 
                 request.getLatitude(), 
