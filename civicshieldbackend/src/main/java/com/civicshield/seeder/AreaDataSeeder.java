@@ -9,6 +9,7 @@ import jakarta.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 @Slf4j
@@ -20,39 +21,44 @@ public class AreaDataSeeder {
         this.areaRepository = areaRepository;
     }
 
-    // @PostConstruct ✅ DISABLE TEMPORARILY
+    @PostConstruct
     public void seedAreas() {
-        if (areaRepository.count() > 0) {
-            log.info("Area data already seeded. Skipping area seeder.");
-            return;
-        }
+        // Noida, Delhi
+        upsertArea("Noida", "Delhi", 28.5743, 77.3545, 72.0);
+        
+        // Sector 62, Uttar Pradesh
+        upsertArea("Sector 62", "Uttar Pradesh", 28.625, 77.37, 85.0);
+        
+        log.info("Area data seeding completed (Noida and Sector 62 ensured)");
+    }
 
-        Map<String, Double> noidaSubScores = new HashMap<>();
-        noidaSubScores.put("infrastructure", 72.0);
-        noidaSubScores.put("safety", 68.0);
-        noidaSubScores.put("civicEngagement", 75.0);
-        noidaSubScores.put("geoTension", 82.0);
-        noidaSubScores.put("environment", 70.0);
-        noidaSubScores.put("govtResponse", 65.0);
+    private void upsertArea(String name, String state, double lat, double lon, double score) {
+        Optional<Area> existing = areaRepository.findByNameIgnoreCaseAndStateIgnoreCase(name, state);
+        
+        Map<String, Double> subScores = new HashMap<>();
+        subScores.put("infrastructure", 72.0);
+        subScores.put("safety", 68.0);
+        subScores.put("civicEngagement", 75.0);
+        subScores.put("geoTension", 82.0);
+        subScores.put("environment", 70.0);
+        subScores.put("govtResponse", 65.0);
 
-        Area noida = Area.builder()
-                .name("Noida")
-                .city("Noida")
-                .state("Delhi")
-                .latitude(28.5743)
-                .longitude(77.3545)
-                .civicScore(72.0)
-                .subScores(noidaSubScores)
-                .totalPosts(14)
-                .openComplaints(12)
-                .resolvedComplaints(8)
-                .crimeReports30d(6)
-                .floodRisk("MEDIUM")
-                .propertySafetyRating(68.4)
-                .updatedAt(LocalDateTime.now())
-                .build();
+        Area area = existing.orElse(new Area());
+        area.setName(name);
+        area.setCity("Noida");
+        area.setState(state);
+        area.setLatitude(lat);
+        area.setLongitude(lon);
+        area.setCivicScore(score);
+        area.setSubScores(subScores);
+        area.setTotalPosts(25);
+        area.setOpenComplaints(5);
+        area.setResolvedComplaints(20);
+        area.setCrimeReports30d(2);
+        area.setFloodRisk("LOW");
+        area.setPropertySafetyRating(88.0);
+        area.setUpdatedAt(LocalDateTime.now());
 
-        areaRepository.save(noida);
-        log.info("Seeded initial area data: Noida, Delhi");
+        areaRepository.save(area);
     }
 }
