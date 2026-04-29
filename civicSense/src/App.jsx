@@ -121,7 +121,7 @@ export default function App() {
       <header className="h-16 bg-[#020617]/80 backdrop-blur-xl border-b border-white/5 flex items-center justify-between px-4 lg:px-6 z-40">
         <div className="flex items-center gap-2 lg:gap-3">
           <span className="text-xl lg:text-2xl">🌐</span>
-          <h1 className="text-lg lg:text-xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary hidden sm:block">CIVICSENSE</h1>
+          <h1 className="text-lg lg:text-xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary hidden sm:block">CIVICSHIELD</h1>
         </div>
         
         {/* HYBRID TOGGLE */}
