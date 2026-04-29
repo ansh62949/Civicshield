@@ -34,7 +34,7 @@ public class ScoreEngine {
 
     public void updateAreaScore(String areaName, String state, String category, String severity) {
         // Find or create area
-        Optional<Area> existingArea = areaRepository.findByNameAndState(areaName, state);
+        Optional<Area> existingArea = areaRepository.findByNameIgnoreCaseAndStateIgnoreCase(areaName, state);
         
         Area area = existingArea.orElseGet(() -> {
             Area newArea = new Area();
