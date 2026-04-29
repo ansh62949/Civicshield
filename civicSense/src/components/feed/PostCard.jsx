@@ -30,8 +30,12 @@ const getSeverityColor = (tag) => {
 export const PostCard = React.memo(({ post, onUpvote, onComment, onShare, onClick, onDelete }) => {
   const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isUpvotedLocal, setIsUpvotedLocal] = useState(post.isUpvoted);
-  const [upvoteCount, setUpvoteCount] = useState(post.upvotes || 0);
+  const [isUpvotedLocal, setIsUpvotedLocal] = useState(
+    Array.isArray(post.upvotes) ? post.upvotes.includes(user?.id || user?.username) : false
+  );
+  const [upvoteCount, setUpvoteCount] = useState(
+    Array.isArray(post.upvotes) ? post.upvotes.length : (typeof post.upvotes === 'number' ? post.upvotes : 0)
+  );
   const [showHeartAnim, setShowHeartAnim] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -39,8 +43,12 @@ export const PostCard = React.memo(({ post, onUpvote, onComment, onShare, onClic
 
   const handleUpvote = (e) => {
     e?.stopPropagation();
+    if (!user) {
+      navigate('/login');
+      return;
+    }
     setIsUpvotedLocal(!isUpvotedLocal);
-    setUpvoteCount(upvoteCount + (isUpvotedLocal ? -1 : 1));
+    setUpvoteCount(prev => prev + (isUpvotedLocal ? -1 : 1));
     onUpvote?.(post.id);
   };
 
@@ -61,8 +69,9 @@ export const PostCard = React.memo(({ post, onUpvote, onComment, onShare, onClic
   const rawImg = post.imageUrl || post.image;
   if (rawImg && rawImg !== "null" && rawImg !== "undefined") {
     imageUrl = (rawImg.startsWith("http") || rawImg.startsWith("data:")) ? rawImg : `${import.meta.env.VITE_API_URL || 'https://civicshield-1-om60.onrender.com'}${rawImg.startsWith('/') ? '' : '/'}${rawImg}`;
-  } else if (post.hasPhoto) {
-    imageUrl = `https://picsum.photos/seed/${post.id}/800/800`;
+  } else {
+    // Default image if none provided
+    imageUrl = `https://picsum.photos/seed/${post.id || Math.random()}/800/800`;
   }
 
   return (
