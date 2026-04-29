@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface AreaRepository extends MongoRepository<Area, String> {
-    Optional<Area> findByNameAndState(String name, String state);
+    Optional<Area> findByNameIgnoreCaseAndStateIgnoreCase(String name, String state);
 
     List<Area> findByState(Sort sort);
 

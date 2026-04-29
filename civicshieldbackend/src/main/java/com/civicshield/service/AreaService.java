@@ -26,7 +26,7 @@ public class AreaService {
     }
 
     public Area getAreaByName(String areaName, String state) {
-        return areaRepository.findByNameAndState(areaName, state)
+        return areaRepository.findByNameIgnoreCaseAndStateIgnoreCase(areaName, state)
                 .orElseThrow(() -> new ResourceNotFoundException("Area not found"));
     }
 
