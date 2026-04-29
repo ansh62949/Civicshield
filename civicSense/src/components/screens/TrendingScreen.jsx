@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { postsAPI } from "../../services/api";
 import { PostCard, GeoAlertCard } from "../feed/PostCard";
 import { POSTS } from "../../mockData";
+import { motion } from "framer-motion";
 
 const calculateTrendScore = (post) => {
   const upvotes = post.upvotes || 0;
